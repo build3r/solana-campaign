@@ -16,6 +16,10 @@
 
   "dependencies": {
     "@solana/web3.js": "^1.35.1",
-    "mz": "^2.7.0"
+    "mz": "^2.7.0",
+    "chalk": "^4.1.2",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.0",
+    "yargs-parser": "^21.0.0"
   }
 }

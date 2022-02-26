@@ -65,6 +65,20 @@ async function createAccount() {
 
   await sendAndConfirmTransaction(connection, transaction, [signer]);
 }
+ async function getProgramAccount() {
+  const signer = await createKeypairFromFile();
+  const newAccountPubkey = await PublicKey.createWithSeed(
+    signer.publicKey,
+    "campaign1",
+    new PublicKey("8KvzMQrEYCt8dUE8tVXXzZVxDSxM36erHnTMdJBCtTm4")
+  );
+  return newAccountPubkey;
+}
+
+async function getWeb3AccInfo(acc) {
+  return await connection.getAccountInfo(acc);
+}
+
 const askQuestions = () => {
   const options = [
     {
@@ -76,11 +90,22 @@ const askQuestions = () => {
         "2. Fund a campaign",
         "3. See Campaign details",
         "4. Withdrwal funds from campaign",
+        "5. Dump campaign account",
       ],
     },
   ];
   return inquirer.prompt(options);
 };
+const askAmount = () => {
+  const options = [
+    {
+      type: "number",
+      name: "AMOUNT",
+      message: "Enter the amount you want to fund in SOL",
+    },
+  ];
+  return inquirer.prompt(options);
+}
 init();
 establishConnection();
 const startProgram = async () => {
@@ -94,12 +119,22 @@ const startProgram = async () => {
       break;
     case "2":
       console.log("Option 2 ", selcted);
+      const amountOption = await askAmount();
+      const amount = amountOption.AMOUNT.toString();
+      console.log("Amount = ", amount);
       break;
     case "3":
       console.log("Option 3 ", selcted);
       break;
     case "4":
       console.log("Option 4 ", selcted);
+      break;
+    case "5":
+      console.log("Option 5 ", selcted);
+      const programAccount = await getProgramAccount();
+      console.log('campaign acc', programAccount.toBase58())
+      const campaignAccInfo = await getWeb3AccInfo(programAccount);
+      console.log("Campaign Account info = ", campaignAccInfo);
       break;
     default:
       console.log("default ", selcted);

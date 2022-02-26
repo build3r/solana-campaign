@@ -17,7 +17,7 @@ const {
   }
   
   async function createKeypairFromFile() {
-    const secretKeyString = await fs.readFile("/Users/Shabaz/10CroreGoal/Solana/super_team/solana-campaign/program/private_key.json", {encoding: 'utf8'});
+    const secretKeyString = await fs.readFile("./program/private_key.json", {encoding: 'utf8'});
     const secretKey = Uint8Array.from(JSON.parse(secretKeyString));
     return Keypair.fromSecretKey(secretKey);
   }
